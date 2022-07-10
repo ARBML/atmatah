@@ -1,0 +1,42 @@
+# gunicorn related tasks
+- name: Make sure gunicorn is installed in the app venv
+  shell: "{{ python_exec }} -m pip install gunicorn~=20.1.0"
+    
+- name: Create app config directory, if not exist
+  file:
+    path: "{{ app_destination }}/config"
+    state: directory
+
+- name: Create gunicorn logs directory, if not exists
+  file:
+    path: "/var/log/gunicorn/{{ app_name }}"
+    state: directory
+
+- name: Configure app's gunicorn settings
+  template:
+    src: "{{ playbook_dir }}/../../templates/gunicorn.conf.j2"
+    dest: "{{ app_destination }}/config/gunicorn.conf.py"
+
+- name: Create app's gunicorn service file
+  template:
+    src: "{{ playbook_dir }}/../../templates/gunicorn.service.j2"
+    dest: "{{ app_destination }}/config/gunicorn.service"
+
+- name: Copy app's gunicorn service file to systemd directory
+  copy:
+    src: "{{ app_destination }}/config/gunicorn.service"
+    dest: "/etc/systemd/system/{{ app_name }}.gunicorn.service"
+    follow: yes
+    remote_src: yes
+
+- name: Remove app's PID folder from "/run" directory, if exists
+  file:
+    state: absent
+    path: "/run/{{ app_name }}"
+
+- name: Restart gunicorn app service
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: "{{ app_name }}.gunicorn.service"
+    enabled: yes

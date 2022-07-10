@@ -1,0 +1,50 @@
+- name: Get code from the GitHub repo
+  git:
+    repo: "{{ github_repo }}"
+    version: "{{ github_branch }}"
+    dest: "{{ app_destination }}/code"
+
+- name: Set manage.py file path to a variable
+  set_fact:
+    manage_file_path: "{{ app_destination }}/code/{{ app_name }}/manage.py"
+
+- name: Create app venv and install requirements
+  shell: |
+    cd {{ app_destination }}
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r {{ app_requirements_file }}
+  args:
+    executable: /bin/bash
+
+- name: Set python executable path to a variable
+  set_fact:
+    python_exec: "{{ app_destination }}/venv/bin/python"
+
+- name: Create media directory, if not exist
+  file:
+    path: "{{ media_directory }}"
+    state: directory
+
+- name: Configure local settings
+  template:
+    src: "{{ playbook_dir }}/../../templates/local_settings.py.j2"
+    dest: "{{ app_destination }}/code/{{ app_name }}/{{ app_name }}/local_settings.py"
+
+# https://stackoverflow.com/a/46454251/4412324
+- name: Ensure local_settings is imported in the app settings module
+  shell: "grep -i 'from .local_settings import' {{ root_settings_file_path }}"
+  register: local_settings_imported
+  ignore_errors: yes
+
+- fail:
+    msg: local_settings are not imported in your settings file. Did you forget to add from .local_settings import *?
+  when: (local_settings_imported is not changed) or (local_settings_imported is failed)
+
+- name: Migrate app database
+  shell: "{{ python_exec }} {{ manage_file_path }} migrate"
+  register: local_settings_imported
+  ignore_errors: yes
+
+- name: Collect app static
+  shell: "{{ python_exec }} {{ manage_file_path }} collectstatic --noinput"

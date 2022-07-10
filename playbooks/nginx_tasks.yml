@@ -1,0 +1,38 @@
+- name: Add app's conf file to sites-available
+  template:
+    src: "{{ playbook_dir }}/../../templates/nginx.app.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+
+- name: Check if any conf file in sites-enabled has the same app's server_name
+  find:
+    paths: /etc/nginx/sites-enabled
+    contains: "\\s*server_name\\s+{{ server_name }}\\s*;\\s*"
+  register: matched
+
+- name: Show these files paths and names
+  debug:
+    msg: "{{matched.files}}"
+
+- name: Delete the matched conf files, if exists
+  file:
+    path: "{{item.path}}"
+    state: absent
+  with_items: "{{ matched.files }}"
+
+- name: Create a soft link to app's conf file in sites-enabled
+  file:
+    src: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ app_name }}.conf"
+    state: link
+
+- name: Reload nginx service
+  service:
+    daemon_reload: yes
+    name: nginx
+    state: reloaded
+
+- name: Restart nginx service
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: nginx

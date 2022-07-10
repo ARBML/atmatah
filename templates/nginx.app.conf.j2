@@ -1,0 +1,11 @@
+server {
+    listen 80;
+    server_name  {{ server_name }};
+    access_log    /var/log/nginx/access.log;
+    error_log     /var/log/nginx/error.log;
+    include       /etc/nginx/sites-conf/*.conf;
+    location / {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:{{ app_port }}/;
+    }
+}

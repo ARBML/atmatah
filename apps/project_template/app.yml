@@ -1,0 +1,34 @@
+# https://medium.com/geekculture/three-ways-to-use-secrets-in-ansible-922ae18df847
+- hosts: all
+  become: yes
+  gather_facts: yes
+  pre_tasks:
+    - name: Include deployment variables
+      include_vars:
+        dir: "{{ playbook_dir }}/vars"
+        
+    - name: Update apt packages cache
+      apt:
+        update_cache: yes
+    - name: Install essential packages
+      package:
+        name:
+          - git
+          - vim
+          - python3-venv
+          - python3-setuptools
+        state: latest
+
+  roles:
+    - geerlingguy.nginx
+
+  tasks:
+
+    - name: Run django related tasks
+      include_tasks: "{{ playbook_dir }}/../../playbooks/django_tasks.yml"
+
+    - name: Run gunicorn related tasks
+      include_tasks: "{{ playbook_dir }}/../../playbooks/gunicorn_tasks.yml"
+    
+    - name: Run nginx related post-deploy tasks
+      include_tasks: "{{ playbook_dir }}/../../playbooks/nginx_tasks.yml"

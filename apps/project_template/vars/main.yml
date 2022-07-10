@@ -1,0 +1,11 @@
+app_name: project_template
+server_name: "{{ ansible_host }}"
+github_repo: https://github.com/MagedSaeed/django-project-template.git
+github_branch: main
+app_destination: "/opt/{{ app_name }}"
+app_requirements_file: "{{ app_destination }}/code/requirements.txt"
+media_directory: "{{ app_destination }}/media" 
+root_settings_file_path: "{{ app_destination }}/code/{{ app_name }}/{{ app_name }}/settings.py"
+workers_count: 4
+app_port: 8050
+app_server_location_root: "/{{ app_name }}"
