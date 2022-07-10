@@ -4,4 +4,4 @@ SECRET_KEY = '{{ secret_key }}'
 STATIC_ROOT = f'{settings.BASE_DIR}/../../static'
 MEDIA_ROOT = f'{settings.BASE_DIR}/../../media'
 
-ALLOWED_HOSTS = ['{{ ansible_host }}','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['{{ server_name }}','127.0.0.1','localhost']
