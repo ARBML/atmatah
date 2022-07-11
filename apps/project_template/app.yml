@@ -3,7 +3,11 @@
   become: yes
   gather_facts: yes
   pre_tasks:
-    - name: Include deployment variables
+    - name: Load default variables files
+      include_vars: 
+        dir: "{{ playbook_dir }}/../../vars"
+  
+    - name: Override default vars file with project specific vars
       include_vars:
         dir: "{{ playbook_dir }}/vars"
         

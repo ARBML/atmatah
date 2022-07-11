@@ -1,0 +1,27 @@
+# nginx related
+server_name: "{{ ansible_host }}" # the server DNS, the default value is the server IP
+
+workers_count: 4
+
+app_port: 8050
+
+app_server_location_root: "/{{ app_name }}"
+
+
+# code related
+app_name: project_template # name of the django project. Usually entered when running django-admin startproject command
+
+github_repo: https://github.com/MagedSaeed/django-project-template.git # The GitHub repo containing the django project
+
+github_branch: main # the GitHub repo branch to get the project from, the default value is main
+
+app_requirements_file: "requirements.txt"
+
+
+# server conf related
+app_destination: "/opt/{{ app_name }}" # The app destination in remote
+
+media_directory: "{{ app_destination }}/media" # The media directory in remote
+
+root_settings_file_path: "{{ app_destination }}/code/{{ app_name }}/{{ app_name }}/settings.py" # root setting file
+

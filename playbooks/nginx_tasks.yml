@@ -9,9 +9,10 @@
     contains: "\\s*server_name\\s+{{ server_name }}\\s*;\\s*"
   register: matched
 
-- name: Show these files paths and names
+- name: Show these files paths
   debug:
-    msg: "{{matched.files}}"
+    msg: "{{ item.path }}"
+  with_items: "{{ matched.files }}"
 
 - name: Delete the matched conf files, if exists
   file:
