@@ -35,6 +35,9 @@ Maybe in the future we will have kind of support to this. Any PR is also appreci
 
 - If you are doing this for the first time, you need to setup your project. To do so:
   - clone the repo.
+  - install ansible (better to be in a virtualenv)
+    `python -m venv venv; source venv/bin/activate; pip install -r requirements.txt`
+  - install repo ansible requirements `ansible-galaxy install -r requirements.yml`
   - cd to `apps` folder.
   - copy `project_template` folder, rename it to yours.
   - in the inventory file, put remote ip.
