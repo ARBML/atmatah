@@ -31,7 +31,7 @@ This project expects that you have a db that is already setup. You just need to 
 If no db is available, the app will be just deployed to the default sqlite.db file.
 Maybe in the future we will have kind of support to this. Any PR is also appreciated.
 
-To deploy an app:
+## To deploy an app:
 
 - If you are doing this for the first time, you need to setup your project. To do so:
   - clone the repo.
