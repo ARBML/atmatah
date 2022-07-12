@@ -25,3 +25,4 @@ media_directory: "{{ app_destination }}/media" # The media directory in remote
 
 root_settings_file_path: "{{ app_destination }}/code/{{ app_name }}/{{ app_name }}/settings.py" # root setting file
 
+templates_dir: "{{ playbook_dir }}/../../templates" # This variable is intended for advanced users who want to define custom templates for their apps

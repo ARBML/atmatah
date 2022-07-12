@@ -1,6 +1,6 @@
 - name: Add app's conf file to sites-available
   template:
-    src: "{{ playbook_dir }}/../../templates/nginx.app.conf.j2"
+    src: "{{ templates_dir }}/nginx.app.conf.j2"
     dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
 
 - name: Check if any conf file in sites-enabled has the same app's server_name

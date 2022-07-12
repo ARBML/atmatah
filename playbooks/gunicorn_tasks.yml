@@ -14,12 +14,12 @@
 
 - name: Configure app's gunicorn settings
   template:
-    src: "{{ playbook_dir }}/../../templates/gunicorn.conf.j2"
+    src: "{{ templates_dir }}/gunicorn.conf.j2"
     dest: "{{ app_destination }}/config/gunicorn.conf.py"
 
 - name: Create app's gunicorn service file
   template:
-    src: "{{ playbook_dir }}/../../templates/gunicorn.service.j2"
+    src: "{{ templates_dir }}/gunicorn.service.j2"
     dest: "{{ app_destination }}/config/gunicorn.service"
 
 - name: Copy app's gunicorn service file to systemd directory

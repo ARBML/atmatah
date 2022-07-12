@@ -5,3 +5,5 @@ STATIC_ROOT = f'{settings.BASE_DIR}/../../static'
 MEDIA_ROOT = f'{settings.BASE_DIR}/../../media'
 
 ALLOWED_HOSTS = ['{{ server_name }}','127.0.0.1','localhost']
+
+{% include "{{ playbook_dir }}/templates/local_settings.py.j2" ignore missing %}

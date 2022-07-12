@@ -28,7 +28,7 @@
 
 - name: Configure local settings
   template:
-    src: "{{ playbook_dir }}/../../templates/local_settings.py.j2"
+    src: "{{ templates_dir }}/local_settings.py.j2"
     dest: "{{ app_destination }}/code/{{ app_name }}/{{ app_name }}/local_settings.py"
 
 # https://stackoverflow.com/a/46454251/4412324

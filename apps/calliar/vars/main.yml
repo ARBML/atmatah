@@ -1,5 +1,3 @@
-vars_file: "{{ playbook_dir }}/../../../vars/main.yml"
-
 app_name: calliar_server
 
 server_name: "calliar.arbml.org"
