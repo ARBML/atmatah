@@ -3,6 +3,7 @@
     repo: "{{ github_repo }}"
     version: "{{ github_branch }}"
     dest: "{{ app_destination }}/code"
+    force: yes
 
 - name: Set manage.py file path to a variable
   set_fact:
