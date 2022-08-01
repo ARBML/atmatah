@@ -7,3 +7,5 @@ github_repo: https://github.com/ARBML/Calliar
 app_port: 8060
 
 app_server_location_root: "/calliar"
+
+templates_dir: "{{ playbook_dir }}/templates" # This variable is intended for advanced users who want to define custom templates for their apps

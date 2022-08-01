@@ -1,0 +1,35 @@
+[Unit]
+Description=gunicorn daemon
+#Requires=gunicorn.socket
+After=network.target
+
+[Service]
+#Type=notify
+Type=forking
+# the specific user that our service will run as
+# another option for an even more restricted service is
+# DynamicUser=yes
+# see http://0pointer.net/blog/dynamic-users-with-systemd.html
+
+# https://bartsimons.me/gunicorn-as-a-systemd-service/
+
+PIDFile = /run/{{ app_name }}/{{ app_name }}.pid
+
+WorkingDirectory={{ app_destination }}/code/{{ app_name }}
+
+ExecStartPre = /bin/mkdir /run/{{ app_name }}
+
+ExecStart={{ app_destination }}/venv/bin/gunicorn -c {{ app_destination }}/config/gunicorn.conf.py
+
+ExecReload=/bin/kill -s HUP $MAINPID
+
+ExecStop = /bin/kill -s TERM $MAINPID
+
+ExecStopPost = /bin/rm -rf /run/{{ app_name }}
+
+#KillMode=mixed
+#TimeoutStopSec=5
+#PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -11,36 +11,36 @@
       include_vars:
         dir: "{{ playbook_dir }}/vars"
         
-    - name: Update apt packages cache
-      apt:
-        update_cache: yes
-    - name: Install essential packages
-      package:
-        name:
-          - git
-          - vim
-          - python3-venv
-          - python3-setuptools
-        state: latest
+  #   - name: Update apt packages cache
+  #     apt:
+  #       update_cache: yes
+  #   - name: Install essential packages
+  #     package:
+  #       name:
+  #         - git
+  #         - vim
+  #         - python3-venv
+  #         - python3-setuptools
+  #       state: latest
 
-  roles:
-    - geerlingguy.nginx
+  # roles:
+  #   - geerlingguy.nginx
 
   tasks:
 
-    - name: Create MEDIA_DIR if not exist
-      file:
-        path: "{{ media_directory }}/calliar_images"
-        state: directory
+  #   - name: Create MEDIA_DIR if not exist
+  #     file:
+  #       path: "{{ media_directory }}/calliar_images"
+  #       state: directory
     
-    - name: Check whether the Google Storage Bucket is mounted
-      command: "mountpoint -q {{ media_directory }}/calliar_images"
-      register: calliar_images_mounted
-      ignore_errors: yes
+  #   - name: Check whether the Google Storage Bucket is mounted
+  #     command: "mountpoint -q {{ media_directory }}/calliar_images"
+  #     register: calliar_images_mounted
+  #     ignore_errors: yes
 
-    - name: Mount Google Storage Bucket to Media dir
-      shell: "gcsfuse calliar_bucket {{ media_directory }}/calliar_images"
-      when: calliar_images_mounted.rc == 1
+    # - name: Mount Google Storage Bucket to Media dir
+    #   shell: "gcsfuse calliar_bucket {{ media_directory }}/calliar_images"
+    #   when: calliar_images_mounted.rc == 1
 
     - name: Run django related tasks
       include_tasks: "{{ playbook_dir }}/../../playbooks/django_tasks.yml"
