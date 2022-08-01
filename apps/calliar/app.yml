@@ -33,8 +33,14 @@
         path: "{{ media_directory }}/calliar_images"
         state: directory
     
+    - name: Check whether the Google Storage Bucket is mounted
+      command: "mountpoint -q {{ media_directory }}/calliar_images"
+      register: calliar_images_mounted
+      ignore_errors: yes
+
     - name: Mount Google Storage Bucket to Media dir
       shell: "gcsfuse calliar_bucket {{ media_directory }}/calliar_images"
+      when: calliar_images_mounted.rc == 1
 
     - name: Run django related tasks
       include_tasks: "{{ playbook_dir }}/../../playbooks/django_tasks.yml"
