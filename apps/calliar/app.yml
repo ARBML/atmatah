@@ -30,7 +30,7 @@
 
     - name: Create MEDIA_DIR if not exist
       file:
-        path: "{{ media_directory }}"
+        path: "{{ media_directory }}/calliar_images"
         state: directory
     
     - name: Mount Google Storage Bucket to Media dir
