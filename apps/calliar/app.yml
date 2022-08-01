@@ -28,7 +28,7 @@
 
   tasks:
 
-    - name: Create MEDIA_DIR if not exist
+    - name: Create calliar_images media if not exist
       file:
         path: "{{ media_directory }}/calliar_images"
         state: directory
@@ -39,7 +39,7 @@
       ignore_errors: yes
 
     - name: Mount Google Storage Bucket to Media dir
-      shell: "gcsfuse calliar_bucket {{ media_directory }}/calliar_images"
+      shell: "gcsfuse -o allow_other calliar_bucket {{ media_directory }}/calliar_images"
       when: calliar_images_mounted.rc == 1
 
     - name: Run django related tasks
