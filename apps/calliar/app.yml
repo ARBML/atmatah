@@ -34,7 +34,7 @@
         state: directory
     
     - name: Mount Google Storage Bucket to Media dir
-      shell: "gcsfuse calliar_bucket {{ media_directory }}/images"
+      shell: "gcsfuse calliar_bucket {{ media_directory }}/calliar_images"
 
     - name: Run django related tasks
       include_tasks: "{{ playbook_dir }}/../../playbooks/django_tasks.yml"
