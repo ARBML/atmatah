@@ -28,6 +28,14 @@
 
   tasks:
 
+    - name: Create MEDIA_DIR if not exist
+      file:
+        path: "{{ media_directory }}"
+        state: directory
+    
+    - name: Mount Google Storage Bucket to Media dir
+      shell: "gcsfuse calliar_bucket {{ media_directory }}/images"
+
     - name: Run django related tasks
       include_tasks: "{{ playbook_dir }}/../../playbooks/django_tasks.yml"
 
